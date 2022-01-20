@@ -1,25 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef } from 'react';
+import './App.scss';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import About from './pages/About';
+import Form from './pages/Form';
+import Reviews from './pages/Reviews';
+import Map from './pages/Map';
+
+export interface ReviewProps {
+  revs: Review[];
+}
+
+export class Review {
+  name: string;
+  review: string;
+  score: number;
+  constructor(name = '', review = '', score = 0) {
+    this.name = name;
+    this.review = review;
+    this.score = score;
+  }
+}
 
 function App() {
+  const reviews: Review[] = [];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Form revs={reviews} />} />
+        <Route path="map" element={<Map />} />
+        <Route path="about" element={<About />} />
+        <Route path="reviews" element={<Reviews revs={reviews} />} />
+      </Routes>
+    </Router>
   );
 }
 
