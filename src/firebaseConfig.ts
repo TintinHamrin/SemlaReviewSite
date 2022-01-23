@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { collection, getFirestore } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,3 +23,10 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const semlaRef = collection(db, 'semla');
 export const analytics = getAnalytics(app);
+
+//storage 
+const storage = getStorage();
+export async function uploadImage(reviewId: string, file: any) {
+  const fileRef = ref(storage, `/reviews/${reviewId}.png`);
+  const snapshot = await uploadBytes(fileRef, file);
+}

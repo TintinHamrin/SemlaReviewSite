@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Review, ReviewProps } from '../App';
 import './Form.scss'; //interesting that it takes styles from About.scss even though not imported? understanding why modules are good..
 import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
@@ -7,11 +7,16 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@material-ui/icons/Send';
+import { uploadImage } from '../firebaseConfig';
 
 function Form(props: ReviewProps) {
   const nameRef = useRef<HTMLInputElement>(null);
   const reviewRef = useRef<HTMLInputElement>(null);
   const scoreRef = useRef<HTMLInputElement>(null);
+
+  const [photo, setPhoto] = useState<any>();
+
+  const [reviewId, setReviewId] = useState<string>(Math.random().toString());
 
   const collectingRefs = () => {
     const review = new Review(
@@ -34,33 +39,15 @@ function Form(props: ReviewProps) {
     scoreRef.current!.value = '';
   };
 
-  // export default function MultilineTextFields() {
-  //   const [value, setValue] = React.useState('Controlled');
+  const handleChange = (e: any) => {
+    const newPhoto = e.target.files[0];
+    const newPhotoArray = photo.push(newPhoto);
+    setPhoto(newPhotoArray);
+  };
 
-  //   const handleChange = (event) => {
-  //     setValue(event.target.value);
-  //   };
-  //
-
-  // <div className="main-wrapper">
-  //   <h1 className="form-text">Let's talk about...Semlor!</h1>
-  //   <form>
-  //     <label htmlFor="bageri"></label>
-  //     <input type="text" id="bageri" placeholder="Bageri" ref={nameRef} />
-  //     <label htmlFor="message"></label>
-  //     <input
-  //       type="text"
-  //       id="message"
-  //       placeholder="Recension"
-  //       ref={reviewRef}
-  //     />
-  //     <label htmlFor="score"></label>
-  //     <input type="number" id="score" placeholder="Score" ref={scoreRef} />
-  //     <button className="btn-submit" onClick={SubmitHandler}>
-  //       Submit
-  //     </button>
-  //   </form>
-  // </div>
+  const addPhotoHandler = () => {
+    uploadImage(photo);
+  };
 
   return (
     <div className="form-wrapper">
@@ -109,6 +96,10 @@ function Form(props: ReviewProps) {
       >
         Send
       </Button>
+      <div className="photo-input">
+        <input type="file" onChange={handleChange} />
+        <button onClick={addPhotoHandler}>Add photo</button>
+      </div>
     </div>
   );
 }
