@@ -1,34 +1,39 @@
 import React, { useState } from 'react';
 import './Navbar.scss';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import '../pages/About';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import AppBar from '@mui/material/AppBar';
 
 function Navbar() {
-  // const [value, setValue] = useState(1);
+  // const { match } = props;
+  // const { params } = match;
+  // const { page } = params;
 
-  // const handleChange = (event: any, value: number) => {
-  //   setValue(value);
-  //   console.log('changin tab');
+  // const tabNameToIndex = {
+  //   0: 'home',
+  //   1: 'reviews',
+  //   2: 'map',
+  //   3: 'about`',
   // };
-  // value={value} onChange={handleChange}
+  // const indexToTabName = {
+  //   home: 0,
+  //   reviews: 1,
+  //   map: 2,
+  //   about: 3,
+  // };
+
+  // const [selectedTab, setSelectedTab] = useState(indexToTabName[page]);
+
+  // const handleChange = (
+  //   event: React.SyntheticEvent<Element, Event>,
+  //   tab:any
+  // ) => {
+  //   setSelectedTab(tab);
+  // };
 
   return (
-    // <div className="navbar">
-    //   <Link className="navbar-link" to="/">
-    //     Home
-    //   </Link>
-    //   <Link className="navbar-link" to="map">
-    //     Map
-    //   </Link>
-    //   <Link className="navbar-link" to="About">
-    //     About
-    //   </Link>
-    //   <Link className="navbar-link" to="Reviews">
-    //     Reviews
-    //   </Link>
-    // </div>
     <Tabs centered>
       <Link to="/">
         <Tab label="Startsida" />

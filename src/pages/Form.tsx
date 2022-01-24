@@ -1,17 +1,17 @@
-import React, { useRef, useState } from "react";
-import { Review, ReviewProps } from "../App";
-import "./Form.scss"; //interesting that it takes styles from About.scss even though not imported? understanding why modules are good..
-import { doc, getDoc, addDoc, collection } from "firebase/firestore";
-import { db, semlaRef } from "../firebaseConfig";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import SendIcon from "@material-ui/icons/Send";
-import usePlacesAutocomplete from "use-places-autocomplete";
-import { PlacesAutocomplete } from "../components/review-form/PlacesAutocomplete";
+import React, { useRef, useState } from 'react';
+import { Review, ReviewProps } from '../App';
+import './Form.scss'; //interesting that it takes styles from About.scss even though not imported? understanding why modules are good..
+import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
+import { db, reviewRef } from '../firebaseConfig';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import SendIcon from '@material-ui/icons/Send';
+import usePlacesAutocomplete from 'use-places-autocomplete';
+import { PlacesAutocomplete } from '../components/review-form/PlacesAutocomplete';
 
 function Form(props: ReviewProps) {
-  const [placeId, setPlaceId] = useState("");
+  const [placeId, setPlaceId] = useState('');
 
   const reviewRef = useRef<HTMLInputElement>(null);
   const scoreRef = useRef<HTMLInputElement>(null);
@@ -23,7 +23,7 @@ function Form(props: ReviewProps) {
     );
     review.placeId = placeId;
 
-    addDoc(collection(db, "reviews"), { ...review });
+    addDoc(collection(db, 'reviews'), { ...review });
 
     props.revs.push(review);
     console.log(props.revs);
@@ -32,8 +32,8 @@ function Form(props: ReviewProps) {
   const SubmitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     collectingRefs();
-    reviewRef.current!.value = "";
-    scoreRef.current!.value = "";
+    reviewRef.current!.value = '';
+    scoreRef.current!.value = '';
   };
 
   // const { init } = usePlacesAutocomplete({
@@ -79,7 +79,7 @@ function Form(props: ReviewProps) {
         className="box"
         component="form"
         sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
+          '& .MuiTextField-root': { m: 1, width: '25ch' },
         }}
         noValidate
         autoComplete="off"

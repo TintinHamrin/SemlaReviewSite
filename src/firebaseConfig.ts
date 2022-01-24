@@ -20,5 +20,5 @@ export const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const semlaRef = collection(db, 'semla');
+export const reviewRef = collection(db, 'reviews');
 export const analytics = getAnalytics(app);
