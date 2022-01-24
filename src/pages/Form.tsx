@@ -9,12 +9,18 @@ import Button from '@mui/material/Button';
 import SendIcon from '@material-ui/icons/Send';
 import usePlacesAutocomplete from 'use-places-autocomplete';
 import { PlacesAutocomplete } from '../components/review-form/PlacesAutocomplete';
+import { uploadImage } from '../firebaseConfig';
+
 
 function Form(props: ReviewProps) {
   const [placeId, setPlaceId] = useState('');
 
   const reviewRef = useRef<HTMLInputElement>(null);
   const scoreRef = useRef<HTMLInputElement>(null);
+
+  const [photo, setPhoto] = useState<any>();
+
+  const [reviewId, setReviewId] = useState<string>(Math.random().toString());
 
   const collectingRefs = () => {
     const review = new Review(
@@ -36,6 +42,7 @@ function Form(props: ReviewProps) {
     scoreRef.current!.value = '';
   };
 
+
   // const { init } = usePlacesAutocomplete({
   //   initOnMount: false, // Disable initializing when the component mounts, default is true
   // });
@@ -53,25 +60,16 @@ function Form(props: ReviewProps) {
   //   };
   //
 
-  // <div className="main-wrapper">
-  //   <h1 className="form-text">Let's talk about...Semlor!</h1>
-  //   <form>
-  //     <label htmlFor="bageri"></label>
-  //     <input type="text" id="bageri" placeholder="Bageri" ref={nameRef} />
-  //     <label htmlFor="message"></label>
-  //     <input
-  //       type="text"
-  //       id="message"
-  //       placeholder="Recension"
-  //       ref={reviewRef}
-  //     />
-  //     <label htmlFor="score"></label>
-  //     <input type="number" id="score" placeholder="Score" ref={scoreRef} />
-  //     <button className="btn-submit" onClick={SubmitHandler}>
-  //       Submit
-  //     </button>
-  //   </form>
-  // </div>
+  const handleChange = (e: any) => {
+    const newPhoto = e.target.files[0];
+    const newPhotoArray = photo.push(newPhoto);
+    setPhoto(newPhotoArray);
+  };
+
+
+  const addPhotoHandler = () => {
+    uploadImage(photo);
+  };
 
   return (
     <div className="form-wrapper">
@@ -111,6 +109,10 @@ function Form(props: ReviewProps) {
       >
         Send
       </Button>
+      <div className="photo-input">
+        <input type="file" onChange={handleChange} />
+        <button onClick={addPhotoHandler}>Add photo</button>
+      </div>
     </div>
   );
 }
