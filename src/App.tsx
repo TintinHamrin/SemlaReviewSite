@@ -12,11 +12,10 @@ export interface ReviewProps {
 }
 
 export class Review {
-  name: string;
+  placeId: string = '';
   review: string;
   score: number;
-  constructor(name = '', review = '', score = 0) {
-    this.name = name;
+  constructor(review = '', score = 0) {
     this.review = review;
     this.score = score;
   }

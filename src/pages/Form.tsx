@@ -2,15 +2,19 @@ import React, { useRef, useState } from 'react';
 import { Review, ReviewProps } from '../App';
 import './Form.scss'; //interesting that it takes styles from About.scss even though not imported? understanding why modules are good..
 import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
-import { db, semlaRef } from '../firebaseConfig';
+import { db, reviewRef } from '../firebaseConfig';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@material-ui/icons/Send';
+import usePlacesAutocomplete from 'use-places-autocomplete';
+import { PlacesAutocomplete } from '../components/review-form/PlacesAutocomplete';
 import { uploadImage } from '../firebaseConfig';
 
+
 function Form(props: ReviewProps) {
-  const nameRef = useRef<HTMLInputElement>(null);
+  const [placeId, setPlaceId] = useState('');
+
   const reviewRef = useRef<HTMLInputElement>(null);
   const scoreRef = useRef<HTMLInputElement>(null);
 
@@ -20,12 +24,12 @@ function Form(props: ReviewProps) {
 
   const collectingRefs = () => {
     const review = new Review(
-      nameRef.current!.value,
       reviewRef.current!.value,
       parseInt(scoreRef.current!.value)
     );
+    review.placeId = placeId;
 
-    addDoc(collection(db, 'semla'), { ...review });
+    addDoc(collection(db, 'reviews'), { ...review });
 
     props.revs.push(review);
     console.log(props.revs);
@@ -34,16 +38,34 @@ function Form(props: ReviewProps) {
   const SubmitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     collectingRefs();
-    nameRef.current!.value = '';
     reviewRef.current!.value = '';
     scoreRef.current!.value = '';
   };
+
+
+  // const { init } = usePlacesAutocomplete({
+  //   initOnMount: false, // Disable initializing when the component mounts, default is true
+  // });
+
+  // const [loading] = useGoogleMapsApi({
+  //   library: "places",
+  //   onLoad: () => init(), // Lazily initializing the hook when the script is ready
+  // });
+
+  // export default function MultilineTextFields() {
+  //   const [value, setValue] = React.useState('Controlled');
+
+  //   const handleChange = (event) => {
+  //     setValue(event.target.value);
+  //   };
+  //
 
   const handleChange = (e: any) => {
     const newPhoto = e.target.files[0];
     const newPhotoArray = photo.push(newPhoto);
     setPhoto(newPhotoArray);
   };
+
 
   const addPhotoHandler = () => {
     uploadImage(photo);
@@ -60,17 +82,8 @@ function Form(props: ReviewProps) {
         noValidate
         autoComplete="off"
       >
-        <TextField
-          id="outlined-multiline-flexible"
-          label="name"
-          multiline
-          placeholder="Bageri"
-          maxRows={2}
-          variant="filled"
-          inputRef={nameRef}
-          // value={value}
-          // onChange={handleChange}
-        />
+        <PlacesAutocomplete setPlaceId={setPlaceId} />
+
         <TextField
           id="outlined-textarea"
           label="score"

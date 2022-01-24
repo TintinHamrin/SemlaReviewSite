@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Review, ReviewProps } from '../App';
 import { getDocs, query } from 'firebase/firestore';
-import { db, semlaRef } from '../firebaseConfig';
+import { db, reviewRef } from '../firebaseConfig';
 import './Reviews.scss';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -12,30 +12,24 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
 function Reviews(props: ReviewProps) {
-  console.log('func comp called');
   const [reviews, setReviews] = useState<Review[]>([]);
 
   const getReviews = async () => {
-    console.log('get reviews called');
-    const snapshot = await getDocs(semlaRef);
+    const snapshot = await getDocs(reviewRef);
     const newReviews: Review[] = [];
     snapshot.docs.forEach((doc) => {
       const review = new Review();
       Object.assign(review, doc.data());
       console.log(review);
       newReviews.push(review);
-      // console.log(doc.data());
     });
     console.log(newReviews);
-    setReviews(newReviews); //wrong
+    setReviews(newReviews);
   };
 
   useEffect(() => {
-    console.log('use effect called');
     if (reviews.length == 0) getReviews();
   }, [reviews]);
-
-  console.log('right before return');
 
   const theme = useTheme();
   return (
@@ -54,7 +48,7 @@ function Reviews(props: ReviewProps) {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <CardContent sx={{ flex: '1 0 auto' }}>
               <Typography component="div" variant="h5">
-                {item.name}
+                {item.placeId}
               </Typography>
               <Typography
                 variant="subtitle1"

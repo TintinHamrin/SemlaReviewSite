@@ -21,8 +21,11 @@ export const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const semlaRef = collection(db, 'semla');
+
+export const reviewRef = collection(db, 'reviews');
 export const analytics = getAnalytics(app);
+
+
 
 //storage 
 const storage = getStorage();
@@ -30,3 +33,4 @@ export async function uploadImage(reviewId: string, file: any) {
   const fileRef = ref(storage, `/reviews/${reviewId}.png`);
   const snapshot = await uploadBytes(fileRef, file);
 }
+
