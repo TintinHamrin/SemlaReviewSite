@@ -15,9 +15,19 @@ export class Review {
   placeId: string = '';
   review: string;
   score: number;
+  sharedId: string = '';
+  imageRef: string = '';
   constructor(review = '', score = 0) {
     this.review = review;
     this.score = score;
+  }
+}
+
+export class Photo {
+  photoId: string = '';
+
+  constructor(photoId: string) {
+    this.photoId = photoId;
   }
 }
 

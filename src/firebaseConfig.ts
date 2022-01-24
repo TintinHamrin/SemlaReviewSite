@@ -2,7 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { collection, getFirestore } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+// import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,8 +31,12 @@ export const analytics = getAnalytics(app);
 
 //storage 
 const storage = getStorage();
-export async function uploadImage(reviewId: string, file: any) {
-  const fileRef = ref(storage, `/reviews/${reviewId}.png`);
-  const snapshot = await uploadBytes(fileRef, file);
+export async function uploadImage(sharedId: string, data:any) {
+  // const fileRef = ref(storage, `/reviews/${reviewId}/${file}.png`);
+  const fileRef = ref(storage, `/reviews/${sharedId}/image.png`);
+  const snapshot = await uploadBytes(fileRef, data);
+
 }
+
+
 

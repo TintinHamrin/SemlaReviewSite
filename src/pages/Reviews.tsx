@@ -10,8 +10,10 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 function Reviews(props: ReviewProps) {
+  const storage = getStorage();
   const [reviews, setReviews] = useState<Review[]>([]);
 
   const getReviews = async () => {
@@ -31,6 +33,12 @@ function Reviews(props: ReviewProps) {
     if (reviews.length == 0) getReviews();
   }, [reviews]);
 
+  const getDownloadURL = async (sharedId: string) => {
+    const fileRef = ref(storage, `/reviews/${sharedId}/image.png`);
+    // return fileRef;
+    console.log('from reviews', fileRef);
+  };
+
   const theme = useTheme();
   return (
     <div className="wrapperDiv">
@@ -42,7 +50,8 @@ function Reviews(props: ReviewProps) {
             className="cardImg"
             component="img"
             sx={{ width: 151 }}
-            image="http://localhost:3000/static/media/dani-CLtLGfF6mwI-unsplash.3b8d75a0bc796ac8cbf4.jpg"
+            // image="http://localhost:3000/static/media/dani-CLtLGfF6mwI-unsplash.3b8d75a0bc796ac8cbf4.jpg"
+            // image={}
             alt="Semla"
           />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>

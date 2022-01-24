@@ -11,7 +11,6 @@ import usePlacesAutocomplete from 'use-places-autocomplete';
 import { PlacesAutocomplete } from '../components/review-form/PlacesAutocomplete';
 import { uploadImage } from '../firebaseConfig';
 
-
 function Form(props: ReviewProps) {
   const [placeId, setPlaceId] = useState('');
 
@@ -28,6 +27,10 @@ function Form(props: ReviewProps) {
       parseInt(scoreRef.current!.value)
     );
     review.placeId = placeId;
+    // review.photoId = photo.name;
+    review.sharedId = photo.sharedId;
+
+    console.log(review.sharedId, ' och ', photo.sharedId);
 
     addDoc(collection(db, 'reviews'), { ...review });
 
@@ -37,11 +40,11 @@ function Form(props: ReviewProps) {
 
   const SubmitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    addPhotoHandler();
     collectingRefs();
     reviewRef.current!.value = '';
     scoreRef.current!.value = '';
   };
-
 
   // const { init } = usePlacesAutocomplete({
   //   initOnMount: false, // Disable initializing when the component mounts, default is true
@@ -62,13 +65,13 @@ function Form(props: ReviewProps) {
 
   const handleChange = (e: any) => {
     const newPhoto = e.target.files[0];
-    const newPhotoArray = photo.push(newPhoto);
-    setPhoto(newPhotoArray);
+    setPhoto(newPhoto);
   };
 
-
   const addPhotoHandler = () => {
-    uploadImage(photo);
+    photo.sharedId = Math.random().toString();
+    uploadImage(photo, photo.sharedId);
+    // console.log(photo.id);
   };
 
   return (
@@ -100,6 +103,16 @@ function Form(props: ReviewProps) {
           variant="filled"
           inputRef={reviewRef}
         />
+        {/* <TextField
+          id="filled-multiline-flexible"
+          placeholder="Ladda upp en bild"
+          variant="filled"
+          type="file"
+          onChange={handleChange}
+        /> */}
+        <div className="photo-input">
+          <input type="file" onChange={handleChange} />
+        </div>
       </Box>
       <Button
         className="send-button"
@@ -109,10 +122,6 @@ function Form(props: ReviewProps) {
       >
         Send
       </Button>
-      <div className="photo-input">
-        <input type="file" onChange={handleChange} />
-        <button onClick={addPhotoHandler}>Add photo</button>
-      </div>
     </div>
   );
 }
