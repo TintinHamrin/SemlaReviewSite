@@ -1,30 +1,47 @@
-import React, { useRef } from 'react';
-import './App.scss';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import About from './pages/About';
-import Form from './pages/Form';
-import Reviews from './pages/Reviews';
-import Map from './pages/Map';
+import React, { useRef } from "react";
+import "./App.scss";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import About from "./pages/About";
+import Form from "./pages/Form";
+import Reviews from "./pages/Reviews";
+import Map from "./pages/Map";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export interface ReviewProps {
   revs: Review[];
 }
 
 export class Review {
-  placeId: string = '';
+  static storage = getStorage();
+  placeId: string = "";
   review: string;
   score: number;
-  sharedId: string = '';
-  imageRef: string = '';
-  constructor(review = '', score = 0) {
+  imageUrl = "";
+  sharedId = "";
+  // sharedId: string = '';
+  // imageRef: string = '';
+  constructor(review = "", score = 0) {
     this.review = review;
     this.score = score;
+  }
+
+  static idToRef(id: string) {
+    return ref(Review.storage, `/photos/${id}.png`);
+  }
+
+  public async fetchDownloadUrl() {
+    try {
+      this.imageUrl = await getDownloadURL(Review.idToRef(this.sharedId));
+    } catch (err) {
+      console.log(err);
+      return true;
+    }
   }
 }
 
 export class Photo {
-  photoId: string = '';
+  photoId: string = "";
 
   constructor(photoId: string) {
     this.photoId = photoId;
