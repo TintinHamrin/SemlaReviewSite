@@ -1,26 +1,29 @@
-import React, { useRef } from 'react';
-import { Review, ReviewProps } from '../App';
-import './Form.scss'; //interesting that it takes styles from About.scss even though not imported? understanding why modules are good..
-import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
-import { db, semlaRef } from '../firebaseConfig';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import SendIcon from '@material-ui/icons/Send';
+import React, { useRef, useState } from "react";
+import { Review, ReviewProps } from "../App";
+import "./Form.scss"; //interesting that it takes styles from About.scss even though not imported? understanding why modules are good..
+import { doc, getDoc, addDoc, collection } from "firebase/firestore";
+import { db, semlaRef } from "../firebaseConfig";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import SendIcon from "@material-ui/icons/Send";
+import usePlacesAutocomplete from "use-places-autocomplete";
+import { PlacesAutocomplete } from "../components/review-form/PlacesAutocomplete";
 
 function Form(props: ReviewProps) {
-  const nameRef = useRef<HTMLInputElement>(null);
+  const [placeId, setPlaceId] = useState("");
+
   const reviewRef = useRef<HTMLInputElement>(null);
   const scoreRef = useRef<HTMLInputElement>(null);
 
   const collectingRefs = () => {
     const review = new Review(
-      nameRef.current!.value,
       reviewRef.current!.value,
       parseInt(scoreRef.current!.value)
     );
+    review.placeId = placeId;
 
-    addDoc(collection(db, 'semla'), { ...review });
+    addDoc(collection(db, "reviews"), { ...review });
 
     props.revs.push(review);
     console.log(props.revs);
@@ -29,10 +32,18 @@ function Form(props: ReviewProps) {
   const SubmitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     collectingRefs();
-    nameRef.current!.value = '';
-    reviewRef.current!.value = '';
-    scoreRef.current!.value = '';
+    reviewRef.current!.value = "";
+    scoreRef.current!.value = "";
   };
+
+  // const { init } = usePlacesAutocomplete({
+  //   initOnMount: false, // Disable initializing when the component mounts, default is true
+  // });
+
+  // const [loading] = useGoogleMapsApi({
+  //   library: "places",
+  //   onLoad: () => init(), // Lazily initializing the hook when the script is ready
+  // });
 
   // export default function MultilineTextFields() {
   //   const [value, setValue] = React.useState('Controlled');
@@ -68,22 +79,13 @@ function Form(props: ReviewProps) {
         className="box"
         component="form"
         sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
         }}
         noValidate
         autoComplete="off"
       >
-        <TextField
-          id="outlined-multiline-flexible"
-          label="name"
-          multiline
-          placeholder="Bageri"
-          maxRows={2}
-          variant="filled"
-          inputRef={nameRef}
-          // value={value}
-          // onChange={handleChange}
-        />
+        <PlacesAutocomplete setPlaceId={setPlaceId} />
+
         <TextField
           id="outlined-textarea"
           label="score"
