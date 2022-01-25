@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Review, ReviewProps } from '../App';
+import { Review, ReviewProps } from '../../App';
 import { getDocs, query } from 'firebase/firestore';
-import { db, reviewRef } from '../firebaseConfig';
+import { db, reviewRef } from '../../firebaseConfig';
 import './Reviews.scss';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -13,18 +13,18 @@ import Typography from '@mui/material/Typography';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 function Reviews(props: ReviewProps) {
-  const storage = getStorage();
   const [reviews, setReviews] = useState<Review[]>([]);
 
   const getReviews = async () => {
     const snapshot = await getDocs(reviewRef);
-    const newReviews: Review[] = [];
-    snapshot.docs.forEach((doc) => {
+    const newReviews = snapshot.docs.map((doc) => {
       const review = new Review();
       Object.assign(review, doc.data());
-      console.log(review);
-      newReviews.push(review);
+      review.sharedId = doc.id;
+      return review;
     });
+    const promises = newReviews.map((r) => r.fetchDownloadUrl());
+    await Promise.all(promises);
     console.log(newReviews);
     setReviews(newReviews);
   };
@@ -32,12 +32,6 @@ function Reviews(props: ReviewProps) {
   useEffect(() => {
     if (reviews.length == 0) getReviews();
   }, [reviews]);
-
-  const getDownloadURL = async (sharedId: string) => {
-    const fileRef = ref(storage, `/reviews/${sharedId}/image.png`);
-    // return fileRef;
-    console.log('from reviews', fileRef);
-  };
 
   const theme = useTheme();
   return (
@@ -50,7 +44,8 @@ function Reviews(props: ReviewProps) {
             className="cardImg"
             component="img"
             sx={{ width: 151 }}
-            // image="http://localhost:3000/static/media/dani-CLtLGfF6mwI-unsplash.3b8d75a0bc796ac8cbf4.jpg"
+            image={item.imageUrl || ''}
+            // http://localhost:3000/static/media/dani-CLtLGfF6mwI-unsplash.3b8d75a0bc796ac8cbf4.jpg"
             // image={}
             alt="Semla"
           />
