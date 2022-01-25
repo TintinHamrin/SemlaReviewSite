@@ -1,12 +1,13 @@
-import React, { useRef } from "react";
-import "./App.scss";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import About from "./pages/About";
-import Form from "./pages/Form";
-import Reviews from "./pages/Reviews";
-import Map from "./pages/Map";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import React, { useRef, useState } from 'react';
+import './App.scss';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import About from './pages/About/About';
+import Form from './pages/Form/Form';
+import Reviews from './pages/Reviews/Reviews';
+import Map from './pages/Map/Map';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import Login from './pages/Login/Login';
 
 export interface ReviewProps {
   revs: Review[];
@@ -14,14 +15,14 @@ export interface ReviewProps {
 
 export class Review {
   static storage = getStorage();
-  placeId: string = "";
+  placeId: string = '';
   review: string;
   score: number;
-  imageUrl = "";
-  sharedId = "";
+  imageUrl = '';
+  sharedId = '';
   // sharedId: string = '';
   // imageRef: string = '';
-  constructor(review = "", score = 0) {
+  constructor(review = '', score = 0) {
     this.review = review;
     this.score = score;
   }
@@ -40,26 +41,32 @@ export class Review {
   }
 }
 
-export class Photo {
-  photoId: string = "";
+// export class Photo {
+//   photoId: string = '';
 
-  constructor(photoId: string) {
-    this.photoId = photoId;
-  }
-}
+//   constructor(photoId: string) {
+//     this.photoId = photoId;
+//   }
+// }
 
 function App() {
   const reviews: Review[] = [];
+  const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
 
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Form revs={reviews} />} />
-        <Route path="map" element={<Map />} />
-        <Route path="about" element={<About />} />
-        <Route path="reviews" element={<Reviews revs={reviews} />} />
-      </Routes>
+      {!userLoggedIn && <Login setUserLoggedIn={setUserLoggedIn} />}
+      {userLoggedIn && (
+        <>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Form revs={reviews} />} />
+            <Route path="map" element={<Map />} />
+            <Route path="about" element={<About />} />
+            <Route path="reviews" element={<Reviews revs={reviews} />} />
+          </Routes>
+        </>
+      )}
     </Router>
   );
 }

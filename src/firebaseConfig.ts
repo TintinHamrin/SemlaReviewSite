@@ -3,14 +3,12 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { collection, getFirestore } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 import { Review } from "./App";
 
-// import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
   apiKey: "AIzaSyDs-9aw--7SZNRst3ttwh3QZ1vXJAxReLg",
   authDomain: "semla-2bc88.firebaseapp.com",
@@ -35,3 +33,6 @@ export async function uploadImage(reviewId: string, data: any) {
   const fileRef = Review.idToRef(reviewId);
   const snapshot = await uploadBytes(fileRef, data);
 }
+
+//auth
+export const auth = getAuth(app)
