@@ -4,7 +4,6 @@ import { getAnalytics } from "firebase/analytics";
 import { collection, getFirestore } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth } from "firebase/auth";
-import { Review } from "./App";
 
 
 
@@ -25,14 +24,6 @@ export const db = getFirestore(app);
 
 export const reviewRef = collection(db, "reviews");
 export const analytics = getAnalytics(app);
-
-//storage
-const storage = getStorage();
-export async function uploadImage(reviewId: string, data: any) {
-  // const fileRef = ref(storage, `/reviews/${reviewId}/${file}.png`);
-  const fileRef = Review.idToRef(reviewId);
-  const snapshot = await uploadBytes(fileRef, data);
-}
 
 //auth
 export const auth = getAuth(app)

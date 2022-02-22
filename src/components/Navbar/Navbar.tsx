@@ -1,30 +1,38 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Navbar.scss';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import '../../pages/About/About';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import AppBar from '@mui/material/AppBar';
+import LoginDialog from '../Login/LoginDialog';
+import AvatarInNavbar from '../AvatarInNavbar/AvatarInNavbar';
+import { AuthContext } from '../../state/AuthContextProvider';
 
-function Navbar() {
+function Navbar(props: any) {
+  const authContext = useContext(AuthContext);
   const [state, setState] = useState(0);
 
-  let handleChange = (event: any, value: any) => {
+  const handleChange = (event: any, value: any) => {
     setState(value as number);
   };
 
   return (
-    <Tabs
-      centered
-      value={state}
-      onChange={handleChange}
-      indicatorColor={'secondary'}
-    >
-      <Tab label="Startsida" to="/" component={Link} />
-      <Tab label="Recensioner" to="reviews" component={Link} />
-      <Tab label="SemmelKarta" to="map" component={Link} />
-      <Tab label="Om" to="about" component={Link} />
-    </Tabs>
+    <React.Fragment>
+      <Tabs
+        centered
+        value={state}
+        onChange={handleChange}
+        indicatorColor={'secondary'}
+      >
+        <Tab label="Startsida" to="/" component={Link} />
+        <Tab label="Recensioner" to="reviews" component={Link} />
+        <Tab label="SemmelKarta" to="map" component={Link} />
+        {authContext.userLoggedIn && (
+          <Tab label="Skriv en recension" to="form" component={Link} />
+        )}
+        {!authContext.userLoggedIn && <LoginDialog />}
+        {authContext.userLoggedIn && <AvatarInNavbar />}
+      </Tabs>
+    </React.Fragment>
   );
 }
 

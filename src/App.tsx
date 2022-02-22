@@ -1,44 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-import About from './pages/About/About';
-import Form from './pages/Form/Form';
+import Form from './pages/ReviewForm/Form';
 import Reviews from './pages/Reviews/Reviews';
 import Map from './pages/Map/Map';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import Login from './pages/Login/Login';
+import { Review } from './models/review';
+import BakeryReviews from './components/BakeryReviews/BakeryReviews';
+import FirstPage from './pages/FirstPage';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebaseConfig';
+import { AuthContext } from './state/AuthContextProvider';
 
 export interface ReviewProps {
   revs: Review[];
-}
-
-export class Review {
-  static storage = getStorage();
-  placeId: string = '';
-  review: string;
-  score: number;
-  imageUrl = '';
-  sharedId = '';
-  // sharedId: string = '';
-  // imageRef: string = '';
-  constructor(review = '', score = 0) {
-    this.review = review;
-    this.score = score;
-  }
-
-  static idToRef(id: string) {
-    return ref(Review.storage, `/photos/${id}.png`);
-  }
-
-  public async fetchDownloadUrl() {
-    try {
-      this.imageUrl = await getDownloadURL(Review.idToRef(this.sharedId));
-    } catch (err) {
-      console.log(err);
-      return true;
-    }
-  }
 }
 
 // export class Photo {
@@ -50,23 +25,35 @@ export class Review {
 // }
 
 function App() {
+  const authContext = useContext(AuthContext);
   const reviews: Review[] = [];
-  const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
+  // // const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
+
+  // onAuthStateChanged(auth, (user) => {
+  //   setUserLoggedIn(!!user);
+  // });
+
+  //  /objects/object-id
+  //  /objects/subobjectName/subobjectId
+  //
+  //  /reviews/objectName
+  //  SEO
+  //  REST convention
+  // /bakeries/:place_id-:bakery_name
+  // /bakeries/asfasdfasdf-Bakery-name-1
 
   return (
     <Router>
-      {!userLoggedIn && <Login setUserLoggedIn={setUserLoggedIn} />}
-      {userLoggedIn && (
-        <>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Form revs={reviews} />} />
-            <Route path="map" element={<Map />} />
-            <Route path="about" element={<About />} />
-            <Route path="reviews" element={<Reviews revs={reviews} />} />
-          </Routes>
-        </>
-      )}
+      <>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<FirstPage />} />
+          <Route path="map" element={<Map />} />
+          <Route path="reviews" element={<Reviews revs={reviews} />} />
+          <Route path="bakeries/:id/:name" element={<BakeryReviews />} />
+          {authContext.userLoggedIn && <Route path="form" element={<Form />} />}
+        </Routes>
+      </>
     </Router>
   );
 }
