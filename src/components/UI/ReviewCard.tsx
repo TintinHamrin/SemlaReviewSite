@@ -25,7 +25,7 @@ interface IReviewCard {
 function ReviewCard(props: IReviewCard) {
   const [counter, setCounter] = useState<number>();
 
-  const reviewLike = new ReviewLike(props.review);
+  // const reviewLike = new ReviewLike(props.review);
 
   const onLikeHandler = async () => {
     props.review

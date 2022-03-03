@@ -1,16 +1,13 @@
-import React, { useContext, useRef, useState } from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-import Form from './pages/ReviewForm/Form';
+import ReviewForm from './pages/ReviewForm/ReviewForm';
 import Reviews from './pages/Reviews/Reviews';
 import Map from './pages/Map/Map';
 import { Review } from './models/review';
 import BakeryReviews from './components/BakeryReviews/BakeryReviews';
 import FirstPage from './pages/FirstPage';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebaseConfig';
-import { AuthContext } from './state/AuthContextProvider';
+import UserProfile from './components/UserProfile/UserProfile';
 
 export interface ReviewProps {
   revs: Review[];
@@ -25,13 +22,7 @@ export interface ReviewProps {
 // }
 
 function App() {
-  const authContext = useContext(AuthContext);
   const reviews: Review[] = [];
-  // // const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
-
-  // onAuthStateChanged(auth, (user) => {
-  //   setUserLoggedIn(!!user);
-  // });
 
   //  /objects/object-id
   //  /objects/subobjectName/subobjectId
@@ -51,7 +42,8 @@ function App() {
           <Route path="map" element={<Map />} />
           <Route path="reviews" element={<Reviews revs={reviews} />} />
           <Route path="bakeries/:id/:name" element={<BakeryReviews />} />
-          {authContext.userLoggedIn && <Route path="form" element={<Form />} />}
+          <Route path="form" element={<ReviewForm />} />
+          <Route path="userprofile" element={<UserProfile />} />)
         </Routes>
       </>
     </Router>

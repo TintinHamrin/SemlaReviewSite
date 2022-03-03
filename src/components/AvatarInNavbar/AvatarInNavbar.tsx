@@ -10,10 +10,14 @@ import {
   Tooltip,
 } from '@mui/material';
 import { signOut } from 'firebase/auth';
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { auth } from '../../firebaseConfig';
+import UserProfile from '../UserProfile/UserProfile';
+import { Link } from 'react-router-dom';
+import User from '../../models/User';
 
-function AvatarInNavbar(props: any) {
+function AvatarInNavbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -28,6 +32,8 @@ function AvatarInNavbar(props: any) {
       alert(error);
     });
   };
+
+  // const currentUser = User.currentUser();
 
   return (
     <div>
@@ -80,9 +86,11 @@ function AvatarInNavbar(props: any) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
-          <Avatar /> Profile
+        <MenuItem to="/userprofile" component={Link}>
+          <Avatar />
+          Profile
         </MenuItem>
+
         <Divider />
 
         <MenuItem onClick={logout}>
@@ -92,6 +100,7 @@ function AvatarInNavbar(props: any) {
           Logout
         </MenuItem>
       </Menu>
+      {/* {openProfile && <UserProfile />} */}
     </div>
   );
 }

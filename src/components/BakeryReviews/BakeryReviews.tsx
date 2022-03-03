@@ -1,48 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './BakeryReviews.scss';
-import { Review } from '../../models/review';
 import { Bakery } from '../../models/bakery';
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
-import ReviewCard from '../UI/ReviewCard';
 import BakeryCard from '../UI/BakeryCard';
+import { bakeryActions } from '../../store/bakery-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 function BakeryReviews() {
   const { id, name } = useParams();
   const bakery = new Bakery(id!, name!);
-
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const puss = 'puss';
+  const dispatch = useDispatch();
+  const reviews = useSelector((state: RootState) => state.bakery.reviews);
 
   useEffect(() => {
+    console.log('useffect');
     bakery
       .reviews()
-      .then(async (reviews) => setReviews(reviews))
+      .then(async (reviews) => dispatch(bakeryActions.loadReviews(reviews)))
       .catch((error) => console.error(error));
   }, []);
 
   return (
     <div>
-      {/* <h1>{bakery.name}</h1> */}
-      <BakeryCard
-        reviews={reviews}
-        name={bakery.name}
-        // image={review.imageUrl}
-        // score={review.score}
-        // review={review.review}
-      />
-      {/* <ul> */}
-      {/* {reviews.map((review) => (
-          <ReviewCard />
-        ))} */}
-      {/* </ul> */}
+      <BakeryCard reviews={reviews} name={bakery.name} />
     </div>
   );
 }

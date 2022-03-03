@@ -93,6 +93,14 @@ export class Review {
     return reviews;
   }
 
+  static async getLikesPerBakery(placeId: Review) {
+    //how notate this function return???
+    const q = query(collection(db, 'reviews'), where('placeId', '==', placeId));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs;
+  }
+
   public async toggleLike() {
     const reviewLike = new ReviewLike(this);
     // const reviewLike = ReviewLike.findOrInitializeByReviewId(this.sharedId)

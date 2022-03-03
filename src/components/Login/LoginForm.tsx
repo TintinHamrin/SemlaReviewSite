@@ -1,40 +1,45 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-
 import {
-  Box,
+  Button,
   Card,
   CardContent,
-  DialogTitle,
+  Dialog,
+  DialogActions,
   Tab,
   Tabs,
   TextField,
 } from '@mui/material';
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '../../firebaseConfig';
+import { RootState } from '../../store';
+import { authActions } from '../../store/auth-slice';
 
-export default function LoginDialog(props: any) {
-  const [openDialog, setOpenDialog] = React.useState(false);
+function LoginForm(props: any) {
   const [tabValue, setTabValue] = React.useState(0);
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
-
-  const handleClickOpen = () => {
-    setOpenDialog(true);
-  };
-
-  const handleClose = () => {
-    setOpenDialog(false);
-  };
+  const dispatch = useDispatch();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
+
+  const loginFormIsShowing = useSelector(
+    (state: RootState) => state.auth.isShowingLoginForm
+  );
+
+  const closeLoginFormHandler = () => {
+    dispatch(authActions.setShowLoginForm(false));
+  };
+
+  onAuthStateChanged(auth, (user) =>
+    dispatch(authActions.setAuthenticated(!!user))
+  );
 
   const login = async () => {
     try {
@@ -43,9 +48,6 @@ export default function LoginDialog(props: any) {
         emailRef.current!.value,
         passwordRef.current!.value
       );
-      handleClose();
-      //props.setUserLoggedIn(true);
-      console.log('login');
     } catch (error) {
       alert(error);
     }
@@ -58,9 +60,6 @@ export default function LoginDialog(props: any) {
         emailRef.current!.value,
         passwordRef.current!.value
       );
-      handleClose();
-      //props.setUserLoggedIn(true);
-      console.log('reg');
     } catch (error) {
       alert(error);
     }
@@ -68,35 +67,18 @@ export default function LoginDialog(props: any) {
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>Logga in</Button>
-
-      <Dialog open={openDialog} onClose={handleClose}>
+      <Dialog open={loginFormIsShowing}>
         <Card variant="outlined">
           <CardContent>
-            <Tabs
-              value={tabValue}
-              onChange={handleTabChange}
-              aria-label="basic tabs example"
-            >
+            <Tabs value={tabValue} onChange={handleTabChange}>
               <Tab label="Logga in" />
               <Tab label="Registrera dig" />
             </Tabs>
-            {/* <DialogActions>
-          <LoginForm
-            setUserLoggedIn={props.setUserLoggedIn}
-            handleDialogOnClose={handleClose}
-          />
-          <RegisterForm
-            setUserLoggedIn={props.setUserLoggedIn}
-            handleDialogOnClose={handleClose}
-          />
-        </DialogActions> */}
 
-            {/* <DialogTitle>Logga in</DialogTitle> */}
             <TextField
               autoFocus
               margin="dense"
-              id="logname"
+              id="email"
               label="Email Address"
               type="email"
               fullWidth
@@ -106,7 +88,7 @@ export default function LoginDialog(props: any) {
             <TextField
               autoFocus
               margin="dense"
-              id="logpassword"
+              id="password"
               label="Password"
               type="password"
               fullWidth
@@ -116,7 +98,7 @@ export default function LoginDialog(props: any) {
           </CardContent>
         </Card>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={closeLoginFormHandler}>Cancel</Button>
           {tabValue === 0 && <Button onClick={login}>Logga in</Button>}
           {tabValue === 1 && <Button onClick={register}>Registrera dig</Button>}
         </DialogActions>
@@ -124,3 +106,5 @@ export default function LoginDialog(props: any) {
     </div>
   );
 }
+
+export default LoginForm;
