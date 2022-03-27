@@ -23,6 +23,7 @@ function Navbar(props: any) {
   return (
     <React.Fragment>
       <Tabs
+      className="navbar"
         centered
         value={state}
         onChange={handleChange}

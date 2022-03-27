@@ -12,20 +12,9 @@ export default function UserProfile() {
     <Card sx={{ minWidth: 275 }} className="user-profile">
       <CardContent>
         <Typography variant="h5" component="div">
-          user
+          Page under progress
         </Typography>
       </CardContent>
-      <CardContent>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          likes coockies
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Typography variant="body2">reviews:</Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Add as cookie friend</Button>
-      </CardActions>
     </Card>
   );
 }

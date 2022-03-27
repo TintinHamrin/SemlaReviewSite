@@ -11,11 +11,10 @@ import {
   Typography,
 } from '@mui/material';
 import './ReviewCard.scss';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Review } from '../../models/review';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { ReviewLike } from '../../models/reviewLike';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 interface IReviewCard {
@@ -24,8 +23,6 @@ interface IReviewCard {
 
 function ReviewCard(props: IReviewCard) {
   const [counter, setCounter] = useState<number>();
-
-  // const reviewLike = new ReviewLike(props.review);
 
   const onLikeHandler = async () => {
     props.review
@@ -57,7 +54,6 @@ function ReviewCard(props: IReviewCard) {
           component="img"
           height="140"
           image={props.review.imageUrl}
-          alt="green iguana"
           className="review-img"
         />
         <CardContent>
