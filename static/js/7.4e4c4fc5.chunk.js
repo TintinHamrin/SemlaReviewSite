@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkreact_ts_semla=self.webpackChunkreact_ts_semla||[]).push([[7],{3007:function(e,n,r){r.r(n),r.d(n,{default:function(){return i}});r(2791);var s=r(7621),t=r(9504),a=r(890),c=r(184);function i(){return(0,c.jsx)(s.Z,{sx:{minWidth:275},className:"user-profile",children:(0,c.jsx)(t.Z,{children:(0,c.jsx)(a.Z,{variant:"h5",component:"div",children:"Page under progress"})})})}}}]);
+//# sourceMappingURL=7.4e4c4fc5.chunk.js.map
