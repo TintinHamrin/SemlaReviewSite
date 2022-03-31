@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/SemlaReviewSite/static/css/main.c6b51f99.css",
-    "main.js": "/SemlaReviewSite/static/js/main.f5fb470c.js",
+    "main.js": "/SemlaReviewSite/static/js/main.830ea30b.js",
     "static/js/7.4e4c4fc5.chunk.js": "/SemlaReviewSite/static/js/7.4e4c4fc5.chunk.js",
     "static/css/307.346b95c2.chunk.css": "/SemlaReviewSite/static/css/307.346b95c2.chunk.css",
-    "static/js/307.2c4d310c.chunk.js": "/SemlaReviewSite/static/js/307.2c4d310c.chunk.js",
+    "static/js/307.37706b1b.chunk.js": "/SemlaReviewSite/static/js/307.37706b1b.chunk.js",
     "static/css/848.dab97273.chunk.css": "/SemlaReviewSite/static/css/848.dab97273.chunk.css",
     "static/js/848.d48546ae.chunk.js": "/SemlaReviewSite/static/js/848.d48546ae.chunk.js",
     "static/media/dani-CLtLGfF6mwI-unsplash.jpg": "/SemlaReviewSite/static/media/dani-CLtLGfF6mwI-unsplash.3b8d75a0bc796ac8cbf4.jpg",
     "index.html": "/SemlaReviewSite/index.html",
     "main.c6b51f99.css.map": "/SemlaReviewSite/static/css/main.c6b51f99.css.map",
-    "main.f5fb470c.js.map": "/SemlaReviewSite/static/js/main.f5fb470c.js.map",
+    "main.830ea30b.js.map": "/SemlaReviewSite/static/js/main.830ea30b.js.map",
     "7.4e4c4fc5.chunk.js.map": "/SemlaReviewSite/static/js/7.4e4c4fc5.chunk.js.map",
     "307.346b95c2.chunk.css.map": "/SemlaReviewSite/static/css/307.346b95c2.chunk.css.map",
-    "307.2c4d310c.chunk.js.map": "/SemlaReviewSite/static/js/307.2c4d310c.chunk.js.map",
+    "307.37706b1b.chunk.js.map": "/SemlaReviewSite/static/js/307.37706b1b.chunk.js.map",
     "848.dab97273.chunk.css.map": "/SemlaReviewSite/static/css/848.dab97273.chunk.css.map",
     "848.d48546ae.chunk.js.map": "/SemlaReviewSite/static/js/848.d48546ae.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c6b51f99.css",
-    "static/js/main.f5fb470c.js"
+    "static/js/main.830ea30b.js"
   ]
 }
