@@ -27,32 +27,38 @@ const theme = createTheme({
       main: "#fff6de",
     },
     background: {
-     paper: "#fff6de",
-     default: "#59450f",
+      paper: "#fff6de",
+      default: "#fffbf2",
     },
     // text: {
     //   primary: "#e91e63",
     // },
     info: {
       main: "#f4511e",
-    }
+    },
   },
   typography: {
-    fontFamily: 'Dosis',
+    fontFamily: "Dosis",
     fontSize: 16,
-  }
+  },
 });
 
 function App() {
   const reviews: Review[] = [];
+
+  const methodDoesNotExist = () => {
+    throw new Error("error hehe");
+  };
 
   return (
     <Router>
       <>
         <ThemeProvider theme={theme}>
           <Navbar />
+          {/* <button onClick={methodDoesNotExist}>Break the world</button>; */}
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
+              {/* <Route path="SemlaReviewSite" element={<FirstPage />} /> */}
               <Route path="/" element={<FirstPage />} />
               <Route path="map" element={<Map />} />
               <Route path="reviews" element={<Reviews revs={reviews} />} />
@@ -68,7 +74,6 @@ function App() {
 }
 
 export default App;
-
 
 //TODO
 // make bakeries page look nicer

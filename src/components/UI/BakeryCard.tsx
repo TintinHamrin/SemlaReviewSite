@@ -36,24 +36,36 @@ export default function BakeryCard() {
         }}
       >
         <CardContent>
-          <Typography sx={{ fontSize: 30 }} align="center" color="text.secondary" gutterBottom>
+          <Typography
+            sx={{ fontSize: 30 }}
+            align="center"
+            color="text.secondary"
+            gutterBottom
+          >
             {bakery.name}
           </Typography>
         </CardContent>
-        <Card variant="outlined">
+        <Card variant="outlined" sx={{ backgroundColor: "background.default" }}>
           <CardContent>
-            <ReviewForm backgroundColor="background.paper"/>
+            <ReviewForm />
           </CardContent>
         </Card>
-        <Typography sx={{ fontSize:30}}color="text.secondary" align="center" gutterBottom>
-            Reviews
-          </Typography>
-          <Divider variant="fullWidth" />
-        {reviews.map((review) => (
-          <CardContent>
-            <ReviewCard review={review} />
-          </CardContent>
-        ))}
+        <Typography
+          sx={{ fontSize: 30 }}
+          color="text.secondary"
+          align="center"
+          gutterBottom
+        >
+          Reviews
+        </Typography>
+        <Divider variant="fullWidth" />
+        <Card sx={{ display: "flex", backgroundColor: "background.default"  }}>
+          {reviews.map((review) => (
+            <CardContent>
+              <ReviewCard review={review} />
+            </CardContent>
+          ))}
+        </Card>
       </Card>
     </div>
   );
