@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { bakeryActions } from "../../store/bakery-slice";
 import { Bakery } from "../../models/bakery";
 import { Divider } from "@mui/material";
+import { authActions } from "../../store/auth-slice";
 
 export default function BakeryCard() {
   const { id, name } = useParams();
@@ -47,7 +48,7 @@ export default function BakeryCard() {
         </CardContent>
         <Card variant="outlined" sx={{ backgroundColor: "background.default" }}>
           <CardContent>
-            <ReviewForm />
+            <ReviewForm bakeryName={bakery.name}/>
           </CardContent>
         </Card>
         <Typography
@@ -59,7 +60,7 @@ export default function BakeryCard() {
           Reviews
         </Typography>
         <Divider variant="fullWidth" />
-        <Card sx={{ display: "flex", backgroundColor: "background.default"  }}>
+        <Card className="reviewWrapper" sx={{ backgroundColor: "background.default" }}>
           {reviews.map((review) => (
             <CardContent>
               <ReviewCard review={review} />

@@ -4,3 +4,9 @@
   margin: 5px;
   overflow: auto;
 }
+
+.reviewWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}

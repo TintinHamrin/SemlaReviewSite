@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useReducer, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import "./ReviewForm.scss"; //interesting that it takes styles from About.scss even though not imported? understanding why modules are good..
 import { auth } from "../../firebaseConfig";
 import Box from "@mui/material/Box";
@@ -24,18 +30,15 @@ function ReviewForm(props: any) {
   const [photo, setPhoto] = useState<File>();
   const [reviewId, setReviewId] = useState<string>(Math.random().toString());
   const dispatch = useDispatch();
-  const bakeryNameAlreadyKnown = useSelector(
-    (state: RootState) => state.auth.bakeryNameAlreadyKnown
-  );
   const reviews = useSelector(
     (state: RootState) => state.bakery.reviews
   ) as Review[];
 
   const collectingInputData = async () => {
-    //review.score = parseInt(scoreRef.current!.value);
     review.score = scoreValue;
     review.review = reviewRef.current!.value;
     review.userId = auth.currentUser!.uid;
+    console.log("userid", review.userId);
     await review.save();
   };
 
@@ -55,31 +58,15 @@ function ReviewForm(props: any) {
     setPhoto(newPhoto);
   };
 
-  const x = () => {
-    console.log("test");
-    console.log(scoreValue);
-  };
-
   return (
     <div className="form-wrapper">
       <Card className="CardContainer">
         <CardContent>
-          <Box
-            className="box"
-            component="form"
-            // sx={{
-            //   marginTop: "2rem",
-            //   "& .MuiTextField-root": { m: 1, width: "25ch" },
-            // }}
-            noValidate
-            autoComplete="off"
-          >
-            {bakeryNameAlreadyKnown || (
-              <PlacesAutocomplete reviewDispatch={reviewDispatch} />
-            )}
-            {bakeryNameAlreadyKnown && (
-              <TextField label="review" multiline variant="filled" fullWidth />
-            )}
+          <Box className="box" component="form" noValidate autoComplete="off">
+            <PlacesAutocomplete
+              bakeryName={props.bakeryName}
+              reviewDispatch={reviewDispatch}
+            />
             <TextField
               label="Review"
               multiline
@@ -99,7 +86,6 @@ function ReviewForm(props: any) {
                 onChange={(event, newValue) => {
                   setScoreValue(newValue!);
                 }}
-                onClick={x}
               />
             </div>
 

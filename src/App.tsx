@@ -46,19 +46,20 @@ const theme = createTheme({
 function App() {
   const reviews: Review[] = [];
 
-  const methodDoesNotExist = () => {
-    throw new Error("error hehe");
-  };
+
+  // const methodDoesNotExist = () => {
+  //   throw new Error("error hehe");
+  // };
 
   return (
     <Router>
       <>
         <ThemeProvider theme={theme}>
           <Navbar />
-          {/* <button onClick={methodDoesNotExist}>Break the world</button>; */}
+          {/* <button onClick={methodDoesNotExist}>Send an error to sentry</button>; */}
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
-              {/* <Route path="SemlaReviewSite" element={<FirstPage />} /> */}
+              <Route path="SemlaReviewSite" element={<FirstPage />} />
               <Route path="/" element={<FirstPage />} />
               <Route path="map" element={<Map />} />
               <Route path="reviews" element={<Reviews revs={reviews} />} />
@@ -75,10 +76,11 @@ function App() {
 
 export default App;
 
+
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}
 //TODO
-// make bakeries page look nicer
-// put cart on map page
 // review: reviewfield, sendbutton, overall look
-// take away, make a few good recensioner w diff images, have
-// rev form always showing
 // fix auto complete looks ugly
+// have already defined bakery in review form when accessing from bakery page

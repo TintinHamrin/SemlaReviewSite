@@ -57,7 +57,7 @@ export class Review {
   }
 
   public async save() {
-    console.log(this);
+    console.log('in save:', this);
     console.log(this.sharedId);
     await setDoc(doc(db, 'reviews', this.sharedId), { ...this });
     await this.createBakeryIfNecessary();

@@ -1,17 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '.';
-import { auth } from '../firebaseConfig';
+import { createSlice } from "@reduxjs/toolkit";
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from ".";
+import { auth } from "../firebaseConfig";
 
 const initialState = {
   isAuthenticated: false,
   isShowingLoginForm: false,
-  bakeryNameAlreadyKnown: false,
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: initialState,
   reducers: {
     setAuthenticated(state, action) {
@@ -19,9 +18,6 @@ const authSlice = createSlice({
     },
     setShowLoginForm(state, action) {
       state.isShowingLoginForm = action.payload;
-    },
-    setBakeryName(state, action) {
-      state.bakeryNameAlreadyKnown = action.payload;
     },
   },
 });
