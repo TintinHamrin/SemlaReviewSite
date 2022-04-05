@@ -4,7 +4,7 @@ import { Bakery } from '../models/bakery';
 const initialState = {
   reviews: [],
   // bakeryNameAlreadyKnown: false,
-  // bakeryName: '',
+  bakeryName: '',
 };
 
 const bakerySlice = createSlice({
@@ -17,9 +17,9 @@ const bakerySlice = createSlice({
     // bakeryNameAlreadyKnown(state, action) {
     //   state.bakeryNameAlreadyKnown = action.payload;
     // },
-    // setBakeryName(state, action) {
-    //   state.bakeryName = action.payload;
-    // },
+    setBakeryName(state, action) {
+      state.bakeryName = action.payload;
+    },
   },
 });
 

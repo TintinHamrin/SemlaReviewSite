@@ -9,13 +9,13 @@ import {
   Rating,
   styled,
   Typography,
-} from '@mui/material';
-import './ReviewCard.scss';
-import { useEffect, useState } from 'react';
-import { Review } from '../../models/review';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+} from "@mui/material";
+import "./ReviewCard.scss";
+import { useEffect, useState } from "react";
+import { Review } from "../../models/review";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 interface IReviewCard {
   review: Review;
@@ -39,11 +39,11 @@ function ReviewCard(props: IReviewCard) {
   }, [counter]);
 
   const StyledRating = styled(Rating)({
-    '& .MuiRating-iconFilled': {
-      color: '#ff6d75',
+    "& .MuiRating-iconFilled": {
+      color: "#ff6d75",
     },
-    '& .MuiRating-iconHover': {
-      color: '#ff3d47',
+    "& .MuiRating-iconHover": {
+      color: "#ff3d47",
     },
   });
 
@@ -57,7 +57,7 @@ function ReviewCard(props: IReviewCard) {
           className="review-img"
         />
         <CardContent>
-          <StyledRating
+          {/* <StyledRating
             name="customized-color"
             defaultValue={props.review.score}
             max={10}
@@ -65,6 +65,12 @@ function ReviewCard(props: IReviewCard) {
             precision={0.5}
             icon={<FavoriteIcon fontSize="inherit" />}
             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+            readOnly
+          /> */}
+          <Rating
+            name="customized-10"
+            defaultValue={props.review.score}
+            max={10}
             readOnly
           />
           <Typography

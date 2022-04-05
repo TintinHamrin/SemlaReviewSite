@@ -48,7 +48,7 @@ export default function BakeryCard() {
         </CardContent>
         <Card variant="outlined" sx={{ backgroundColor: "background.default" }}>
           <CardContent>
-            <ReviewForm bakeryName={bakery.name}/>
+            <ReviewForm bakery={bakery}/>
           </CardContent>
         </Card>
         <Typography

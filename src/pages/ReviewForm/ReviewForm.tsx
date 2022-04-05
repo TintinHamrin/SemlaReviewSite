@@ -18,12 +18,13 @@ import { authActions } from "../../store/auth-slice";
 import { bakeryActions } from "../../store/bakery-slice";
 import { RootState } from "../../store";
 import { Card, CardContent, Rating, Typography } from "@mui/material";
+import { Bakery } from "../../models/bakery";
 
 function reviewReducer(state: Review, newState: Review) {
   return newState;
 }
 
-function ReviewForm(props: any) {
+function ReviewForm(props: {bakery?: Bakery}) {
   const [review, reviewDispatch] = useReducer(reviewReducer, new Review());
   const reviewRef = useRef<HTMLInputElement>(null);
   const [scoreValue, setScoreValue] = useState(0);
@@ -38,6 +39,7 @@ function ReviewForm(props: any) {
     review.score = scoreValue;
     review.review = reviewRef.current!.value;
     review.userId = auth.currentUser!.uid;
+    if (props.bakery) review.placeId = props.bakery.placeId
     console.log("userid", review.userId);
     await review.save();
   };
@@ -63,10 +65,10 @@ function ReviewForm(props: any) {
       <Card className="CardContainer">
         <CardContent>
           <Box className="box" component="form" noValidate autoComplete="off">
-            <PlacesAutocomplete
-              bakeryName={props.bakeryName}
-              reviewDispatch={reviewDispatch}
-            />
+            {!props.bakery && (
+              <PlacesAutocomplete reviewDispatch={reviewDispatch} />
+            )}
+
             <TextField
               label="Review"
               multiline

@@ -10,7 +10,6 @@ import { bakeryActions } from "../../store/bakery-slice";
 
 interface PlacesAutocompleteProps {
   reviewDispatch: React.Dispatch<Review>;
-  bakeryName: string;
 }
 
 export const PlacesAutocomplete = (props: PlacesAutocompleteProps) => {
@@ -33,9 +32,6 @@ export const PlacesAutocomplete = (props: PlacesAutocompleteProps) => {
     console.log("val:", value);
   };
 
-  useEffect(() => {
-    setValue(props.bakeryName);
-  }, []);
 
   const handleSelect =
     (obj: { description: string; place_id: string }) => () => {

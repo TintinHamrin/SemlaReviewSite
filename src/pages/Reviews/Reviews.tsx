@@ -9,9 +9,12 @@ import { Link } from "react-router-dom";
 import { Bakery } from "../../models/bakery";
 import { CardMedia } from "@mui/material";
 import { Review } from "../../models/review";
+import { useDispatch } from "react-redux";
+import { bakeryActions } from "../../store/bakery-slice";
 
 function Reviews(props: ReviewProps) {
   const [bakeries, setBakeries] = useState<Bakery[]>([]);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (bakeries.length == 0)
@@ -20,6 +23,11 @@ function Reviews(props: ReviewProps) {
         .then((bakeries) => setBakeries(bakeries))
         .catch((e) => console.error("error fetching bakeries"));
   }, [bakeries]);
+
+  // const x = () => {
+  //   console.log('ggg') //send bakery name to state here
+  //   dispatch(bakeryActions.setBakeryName(bakery.name)
+  // }
 
   return (
     <div className="review-wrapper">
@@ -32,6 +40,7 @@ function Reviews(props: ReviewProps) {
                   className="link"
                   color="palette.text.primary"
                   to={"/bakeries/" + bakery.url()}
+                  // onClick={() => dispatch(bakeryActions.setBakeryName(bakery.name)}
                 >
                   {bakery.name}
                 </Link>
