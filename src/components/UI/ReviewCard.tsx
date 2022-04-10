@@ -38,14 +38,6 @@ function ReviewCard(props: IReviewCard) {
       .catch((e) => console.error(e));
   }, [counter]);
 
-  const StyledRating = styled(Rating)({
-    "& .MuiRating-iconFilled": {
-      color: "#ff6d75",
-    },
-    "& .MuiRating-iconHover": {
-      color: "#ff3d47",
-    },
-  });
 
   return (
     <Card sx={{ maxWidth: 345 }} className="review-card">
@@ -57,16 +49,6 @@ function ReviewCard(props: IReviewCard) {
           className="review-img"
         />
         <CardContent>
-          {/* <StyledRating
-            name="customized-color"
-            defaultValue={props.review.score}
-            max={10}
-            getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
-            precision={0.5}
-            icon={<FavoriteIcon fontSize="inherit" />}
-            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-            readOnly
-          /> */}
           <Rating
             name="customized-10"
             defaultValue={props.review.score}
